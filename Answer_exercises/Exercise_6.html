@@ -131,47 +131,82 @@ $(document).ready(function () {
 <pre class="r"><code>library(compareGroups)
 library(Hmisc)
 library(MASS)</code></pre>
+<p>Si no las tenéis instaladas podéis instalarlas con</p>
+<pre class="r"><code>install.packages(c(&quot;Hmisc&quot;, &quot;MASS&quot;, &quot;comnpareGroups&quot;))</code></pre>
 </div>
-<div id="cargamos-los-datos" class="section level1">
-<h1>Cargamos los datos</h1>
-<pre class="r"><code>multicentric &lt;- read.delim(&quot;C:/Juan/CREAL/GitHub/R_course/Data_for_exercises/multicentric.txt&quot;, na.strings = c(&quot; &quot;))
+<div id="importamos-datos-a-r" class="section level1">
+<h1>Importamos datos a R</h1>
+<p>Leemos los datos</p>
+<pre class="r"><code>multicentric &lt;- read.delim(&quot;C:/Juan/CREAL/GitHub/R_course/Data_for_exercises/multicentric.txt&quot;)
 head(multicentric)</code></pre>
-<pre><code>##   ident   pais  status edad niveledu      fumar edad1sex regcompa totcompa
-## 1 10001 Brasil Control   64 primaria ex-fumador       16        2      2-3
-## 2 10002 Brasil    Caso   51 primaria    fumador       17        1        1
-## 3 10003 Brasil Control   48  ninguno    fumador       14        2      2-3
-## 4 10004 Brasil    Caso   49  ninguno no fumador       23        1        1
-## 5 10005 Brasil Control   41 primaria no fumador       23        1        1
-## 6 10006 Brasil    Caso   45 primaria    fumador       18        1        1
-##   ets co edinico edfinco durco condon embara edademba nembara pap edad1pap
-## 1  sí no      NA      NA    NA     no     sí       16       9  sí       40
-## 2  sí no      NA      NA    NA     no     sí       17      13  sí       45
-## 3  no no      NA      NA    NA     no     sí       14      11  no       NA
-## 4  no no      NA      NA    NA     no     sí       23      13  no       NA
-## 5  no no      NA      NA    NA     no     sí       24       3  sí       30
-## 6  no sí      22      38    14     no     sí       18       5  sí       33
-##        vph
-## 1 negativo
-## 2 positivo
-## 3 positivo
-## 4 positivo
-## 5 negativo
-## 6 positivo</code></pre>
+<pre><code>  ident   pais  status edad niveledu      fumar edad1sex regcompa totcompa
+1 10001 Brasil Control   64 primaria ex-fumador       16        2      2-3
+2 10002 Brasil    Caso   51 primaria    fumador       17        1        1
+3 10003 Brasil Control   48  ninguno    fumador       14        2      2-3
+4 10004 Brasil    Caso   49  ninguno no fumador       23        1        1
+5 10005 Brasil Control   41 primaria no fumador       23        1        1
+6 10006 Brasil    Caso   45 primaria    fumador       18        1        1
+  ets co edinico edfinco durco condon embara edademba nembara pap edad1pap
+1  sí no      NA      NA    NA     no     sí       16       9  sí       40
+2  sí no      NA      NA    NA     no     sí       17      13  sí       45
+3  no no      NA      NA    NA     no     sí       14      11  no       NA
+4  no no      NA      NA    NA     no     sí       23      13  no       NA
+5  no no      NA      NA    NA     no     sí       24       3  sí       30
+6  no sí      22      38    14     no     sí       18       5  sí       33
+       vph
+1 negativo
+2 positivo
+3 positivo
+4 positivo
+5 negativo
+6 positivo</code></pre>
+</div>
+<div id="recodificamos-variables-y-ponemos-etiquetas" class="section level1">
+<h1>Recodificamos variables y ponemos etiquetas</h1>
 <p>Cambio la categoría de referencia</p>
 <pre class="r"><code>multicentric$caco &lt;- relevel(multicentric$status, 2)</code></pre>
 <p>Pongamos primero unas etiquetas a las variables</p>
-<pre class="r"><code>label(multicentric$caco) &lt;- &quot;Caso/control&quot;
-label(multicentric$vph) &lt;- &quot;Test papilloma virus&quot;</code></pre>
+<pre class="r"><code>Hmisc::label(multicentric$caco) &lt;- &quot;Caso/control&quot;
+Hmisc::label(multicentric$vph) &lt;- &quot;Test papilloma virus&quot;</code></pre>
 </div>
 <div id="analisis-descriptivo" class="section level1">
 <h1>Análisis descriptivo</h1>
+<p>Primero indico las variables que quiero analizar. Aquí vamos a usar la opcion <code>method=NA</code> para indicar que use el test paramétrico o no paramétrico en función de si la variable continua sigue una distribución normal o no</p>
 <pre class="r"><code>descr.multi &lt;- compareGroups(caco ~ edad + niveledu + fumar +
-                               edad1sex + nembara + vph, multicentric)</code></pre>
+                               edad1sex + nembara + vph, 
+                             data = multicentric,
+                             method = NA)</code></pre>
 <p>Ahora creamos la tabla</p>
 <pre class="r"><code>table.multi &lt;- createTable(descr.multi)
-export2md(table.multi)</code></pre>
+table.multi</code></pre>
+<pre><code>
+--------Summary descriptives table by 'Caso/control'---------
+
+_________________________________________________________________ 
+                          Control            Caso       p.overall 
+                           N=1421           N=1489                
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ 
+edad                  48.0 [39.0;57.0] 49.0 [40.0;59.0]   0.003   
+niveledu:                                                &lt;0.001   
+    ninguno             266 (18.7%)      415 (27.9%)              
+    primaria            679 (47.8%)      767 (51.5%)              
+    secundaria          399 (28.1%)      274 (18.4%)              
+    técnico              37 (2.60%)       25 (1.68%)              
+    universitario        40 (2.81%)       8 (0.54%)               
+fumar:                                                   &lt;0.001   
+    ex-fumador           93 (6.54%)      130 (8.73%)              
+    fumador             108 (7.60%)      184 (12.4%)              
+    no fumador          1220 (85.9%)     1175 (78.9%)             
+edad1sex              20.0 [17.0;24.0] 18.0 [16.0;21.0]  &lt;0.001   
+nembara               4.00 [3.00;7.00] 5.00 [3.00;8.00]  &lt;0.001   
+Test papilloma virus:                                     0.000   
+    negativo            996 (85.6%)       81 (6.37%)              
+    positivo            168 (14.4%)      1190 (93.6%)             
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ </code></pre>
+<p>Si queremos ver la tabla en formato HTML o Markdown usamos:</p>
+<pre class="r"><code>export2md(table.multi, width=3, caption=&quot;Descriptive statistics&quot;)</code></pre>
 <table>
-<caption>Summary descriptives table by groups of `Caso/control’</caption>
+<caption>Descriptive statistics</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -183,9 +218,9 @@ export2md(table.multi)</code></pre>
 <tbody>
 <tr class="odd">
 <td>edad</td>
-<td align="center">48.2 (12.0)</td>
-<td align="center">49.5 (11.8)</td>
-<td align="center">0.002</td>
+<td align="center">48.0 [39.0;57.0]</td>
+<td align="center">49.0 [40.0;59.0]</td>
+<td align="center">0.003</td>
 </tr>
 <tr class="even">
 <td>niveledu:</td>
@@ -249,14 +284,14 @@ export2md(table.multi)</code></pre>
 </tr>
 <tr class="even">
 <td>edad1sex</td>
-<td align="center">20.8 (4.89)</td>
-<td align="center">18.7 (4.34)</td>
+<td align="center">20.0 [17.0;24.0]</td>
+<td align="center">18.0 [16.0;21.0]</td>
 <td align="center">&lt;0.001</td>
 </tr>
 <tr class="odd">
 <td>nembara</td>
-<td align="center">5.12 (3.15)</td>
-<td align="center">5.95 (3.26)</td>
+<td align="center">4.00 [3.00;7.00]</td>
+<td align="center">5.00 [3.00;8.00]</td>
 <td align="center">&lt;0.001</td>
 </tr>
 <tr class="even">
@@ -285,6 +320,7 @@ export2md(table.multi)</code></pre>
 </div>
 <div id="calculo-de-ors" class="section level1">
 <h1>Cálculo de ORs</h1>
+<p>La tabla con las ORs e IC95% se pueden obtener mediante</p>
 <pre class="r"><code>table.or &lt;- createTable(descr.multi, show.ratio = TRUE,
                       show.p.overall = TRUE, show.p.trend = TRUE)
 export2md(table.or)</code></pre>
@@ -304,12 +340,12 @@ export2md(table.or)</code></pre>
 <tbody>
 <tr class="odd">
 <td>edad</td>
-<td align="center">48.2 (12.0)</td>
-<td align="center">49.5 (11.8)</td>
+<td align="center">48.0 [39.0;57.0]</td>
+<td align="center">49.0 [40.0;59.0]</td>
 <td align="center">1.01 [1.00;1.02]</td>
 <td align="center">0.002</td>
-<td align="center">0.002</td>
-<td align="center">0.002</td>
+<td align="center">0.003</td>
+<td align="center">0.003</td>
 </tr>
 <tr class="even">
 <td>niveledu:</td>
@@ -403,8 +439,8 @@ export2md(table.or)</code></pre>
 </tr>
 <tr class="even">
 <td>edad1sex</td>
-<td align="center">20.8 (4.89)</td>
-<td align="center">18.7 (4.34)</td>
+<td align="center">20.0 [17.0;24.0]</td>
+<td align="center">18.0 [16.0;21.0]</td>
 <td align="center">0.90 [0.89;0.92]</td>
 <td align="center">&lt;0.001</td>
 <td align="center">&lt;0.001</td>
@@ -412,8 +448,8 @@ export2md(table.or)</code></pre>
 </tr>
 <tr class="odd">
 <td>nembara</td>
-<td align="center">5.12 (3.15)</td>
-<td align="center">5.95 (3.26)</td>
+<td align="center">4.00 [3.00;7.00]</td>
+<td align="center">5.00 [3.00;8.00]</td>
 <td align="center">1.08 [1.06;1.11]</td>
 <td align="center">&lt;0.001</td>
 <td align="center">&lt;0.001</td>
@@ -448,26 +484,27 @@ export2md(table.or)</code></pre>
 </tr>
 </tbody>
 </table>
+<p>Como se observa en la tabla anterior el riesgo de cáncer de cervix para las mujeres con VPH+ respecto a las VPH- es 86.7 [66.0;115]</p>
 </div>
 <div id="supervivencia" class="section level1">
 <h1>Supervivencia</h1>
 <p>Cargamos datos</p>
-<pre class="r"><code>pulmon &lt;- read.delim(&quot;C:/Juan/CREAL/GitHub/R_course/Data_for_exercises/pulmon.txt&quot;, na.strings = c(NA, &quot; &quot;, &quot;&quot;))
+<pre class="r"><code>pulmon &lt;- read.delim(&quot;C:/Juan/CREAL/GitHub/R_course/Data_for_exercises/pulmon.txt&quot;)
 head(pulmon)</code></pre>
-<pre><code>##   tiempo estado   sexo edad   edad4 estclin ik      ik5  po2    cirugia
-## 1      8      1 hombre   71 (68,74]    IIIb 86  (80,90] &lt;NA&gt;         No
-## 2      5      1 hombre   68 (62,68]    IIIa 87  (80,90] &lt;NA&gt; No-radical
-## 3      2      1 hombre   69 (68,74]      IV 57  (50,60] &lt;NA&gt;         No
-## 4      7      1 hombre   71 (68,74]    IIIa 95 (90,100] &lt;NA&gt;    Radical
-## 5      5      1 hombre   75 (74,85]    IIIb 74  (70,80] &lt;NA&gt;         No
-## 6      5      1 hombre   75 (74,85]    IIIb 74  (70,80] &gt; 70         No
-##   quimio radioter
-## 1     No       No
-## 2     No       No
-## 3     No       No
-## 4     No       No
-## 5     No       No
-## 6     No       No</code></pre>
+<pre><code>  tiempo estado   sexo edad   edad4 estclin ik      ik5  po2    cirugia
+1      8      1 hombre   71 (68,74]    IIIb 86  (80,90]              No
+2      5      1 hombre   68 (62,68]    IIIa 87  (80,90]      No-radical
+3      2      1 hombre   69 (68,74]      IV 57  (50,60]              No
+4      7      1 hombre   71 (68,74]    IIIa 95 (90,100]         Radical
+5      5      1 hombre   75 (74,85]    IIIb 74  (70,80]              No
+6      5      1 hombre   75 (74,85]    IIIb 74  (70,80] &gt; 70         No
+  quimio radioter
+1     No       No
+2     No       No
+3     No       No
+4     No       No
+5     No       No
+6     No       No</code></pre>
 <pre class="r"><code>pulmon$tsurv &lt;- Surv(pulmon$tiempo, pulmon$estado == 1)
 descr.pulmon &lt;- compareGroups(tsurv ~ sexo + edad4 + estclin + ik5 +
                                 cirugia + quimio + radioter, pulmon)
@@ -732,37 +769,37 @@ export2md(table.hr)</code></pre>
 <pre class="r"><code>mod &lt;- coxph(Surv(tiempo, estado) ~ estclin + ik5 +
                                 cirugia + quimio + radioter, pulmon)
 modStep &lt;- stepAIC(mod, direction = &quot;both&quot;)</code></pre>
-<pre><code>## Start:  AIC=5041.01
-## Surv(tiempo, estado) ~ estclin + ik5 + cirugia + quimio + radioter
-## 
-##            Df    AIC
-## &lt;none&gt;        5041.0
-## - radioter  2 5045.9
-## - quimio    1 5056.9
-## - estclin   3 5064.3
-## - cirugia   2 5071.4
-## - ik5       4 5081.6</code></pre>
+<pre><code>Start:  AIC=5041.01
+Surv(tiempo, estado) ~ estclin + ik5 + cirugia + quimio + radioter
+
+           Df    AIC
+&lt;none&gt;        5041.0
+- radioter  2 5045.9
+- quimio    1 5056.9
+- estclin   3 5064.3
+- cirugia   2 5071.4
+- ik5       4 5081.6</code></pre>
 <pre class="r"><code>modStep</code></pre>
-<pre><code>## Call:
-## coxph(formula = Surv(tiempo, estado) ~ estclin + ik5 + cirugia + 
-##     quimio + radioter, data = pulmon)
-## 
-##                     coef exp(coef) se(coef)     z       p
-## estclinIIIa        0.599     1.819    0.159  3.76 0.00017
-## estclinIIIb        0.689     1.992    0.160  4.32 1.6e-05
-## estclinIV          0.825     2.283    0.164  5.04 4.6e-07
-## ik5(60,70]        -0.617     0.539    0.160 -3.86 0.00011
-## ik5(70,80]        -0.787     0.455    0.168 -4.68 2.9e-06
-## ik5(80,90]        -0.965     0.381    0.161 -6.00 1.9e-09
-## ik5(90,100]       -1.335     0.263    0.207 -6.45 1.1e-10
-## cirugiaNo-radical -0.419     0.657    0.243 -1.73 0.08398
-## cirugiaRadical    -1.056     0.348    0.193 -5.48 4.3e-08
-## quimioPlatino     -0.529     0.589    0.130 -4.06 5.0e-05
-## radioter&gt;=60G     -0.529     0.589    0.260 -2.03 0.04205
-## radioterNo         0.141     1.151    0.135  1.04 0.29693
-## 
-## Likelihood ratio test=236  on 12 df, p=0
-## n= 610, number of events= 474</code></pre>
+<pre><code>Call:
+coxph(formula = Surv(tiempo, estado) ~ estclin + ik5 + cirugia + 
+    quimio + radioter, data = pulmon)
+
+                    coef exp(coef) se(coef)     z       p
+estclinIIIa        0.599     1.819    0.159  3.76 0.00017
+estclinIIIb        0.689     1.992    0.160  4.32 1.6e-05
+estclinIV          0.825     2.283    0.164  5.04 4.6e-07
+ik5(60,70]        -0.617     0.539    0.160 -3.86 0.00011
+ik5(70,80]        -0.787     0.455    0.168 -4.68 2.9e-06
+ik5(80,90]        -0.965     0.381    0.161 -6.00 1.9e-09
+ik5(90,100]       -1.335     0.263    0.207 -6.45 1.1e-10
+cirugiaNo-radical -0.419     0.657    0.243 -1.73 0.08398
+cirugiaRadical    -1.056     0.348    0.193 -5.48 4.3e-08
+quimioPlatino     -0.529     0.589    0.130 -4.06 5.0e-05
+radioter&gt;=60G     -0.529     0.589    0.260 -2.03 0.04205
+radioterNo         0.141     1.151    0.135  1.04 0.29693
+
+Likelihood ratio test=236  on 12 df, p=0
+n= 610, number of events= 474 </code></pre>
 </div>
 
 
