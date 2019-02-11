@@ -2,6 +2,8 @@
 
 `IACS - Instituto Aragonés de Ciencias de la Salud. Zaragoza`
 
+3rd-4th and 13th-14th December 2018
+
 
 **Juan R Gonzalez**
 
