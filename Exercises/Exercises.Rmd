@@ -1,16 +1,11 @@
 ---
 title: "Exercises"
 subtitle: "Descriptive analysis and basic statistics in biomedical studies using R and Markdown"
-author: | 
-  | Juan R Gonzalez
-  | juanr.gonzalez@isglobal.org
-institute: |
-  | BRGE - Bioinformatics Research Group in Epidemiology
-  | ISGlobal - Barcelona Institute for Global Health
-  | http://brge.isglobal.org
-date: |
-  | IACS - Instituto Aragon?s de Ciencias de la Salud
-  | Zaragoza, February 26th
+author:   
+  - name: Juan R Gonzalez
+    affiliation: 
+    - Bioinformatics Research Group in Epidemiology, Barcelona Institute for Global Health, Spain
+    email: juanr.gonzalez@isglobal.org
 output:
   BiocStyle::html_document:
     toc_depth: 2

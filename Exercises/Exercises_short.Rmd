@@ -1,0 +1,73 @@
+---
+title: "Exercises"
+subtitle: "Descriptive analysis and basic statistics in biomedical studies using R and Markdown"
+author:   
+  - name: Juan R Gonzalez
+    affiliation: 
+    - Bioinformatics Research Group in Epidemiology, Barcelona Institute for Global Health, Spain
+    email: juanr.gonzalez@isglobal.org
+output:
+  BiocStyle::html_document:
+    toc_depth: 2
+  BiocStyle::pdf_document:
+    toc_depth: 2
+---
+
+
+```{r style, echo=FALSE, message=FALSE, warning=FALSE, results="asis"}
+library("knitr")
+#options(width=100)
+opts_chunk$set(message = FALSE, error = TRUE, warning = TRUE)
+```
+
+
+# R basics
+
+1. Create a vector `x` with the following entries:
+```
+ 3 4 1 1 2 1 4 2 1 1 5 3 1 1 1 2 4 5 5 3
+``` 
+2. Check which elements of `x` are equal to 1 (Hint: use "==" operator). 
+3. Create a variable (e.g vector) `y` having the logarithm of `x`. 
+4. Create a vector `z` containing the first five elements of `x`.
+5. Create a sequence of numbers from 1 to 20 in steps of 0.2 (see help `seq` function). 
+6. Concatenate `x` and `y` into a vector called `newVec`.
+7. Display all objects in the workspace and then remove `newVec` object.
+8. Create a `data.frame` called `elasticband` having these two variables.
+```
+stretch <- c(46,54,48,50,44,42,52)
+distance <- c(148,182,173,166,109,141,166)
+```
+9. Compute the mean of the variable `stretch` from the `elasticbanc` object (Hint: use "$").
+10. Which is the class of the variable `distance`?
+
+
+
+# Descriptive analyses
+
+The file `multicentric.txt` contains the data of a multicentric case/control study to discover risk factors of cervical cancer. The file `multicentric.htm` contains a description of the variables included in this file. Answer the next questions (first, have a look at the slides available at **Estadística descriptiva con R** e **Inferencia estadística con R**)   
+
+1. Import the data in an object called `multi` (Hint: data are in text tab-delimited format: use `read.delim` function).
+2. Create anoter variable called `edad1sex.cat` having age at first sexual intercourse (variable `edad1sex`) in three categories: <15, 15-18, 19-25, +25. How many woman had her first sexual intercouse before 15 years old?
+3. How many individuals and variables are in this database?
+4. Describe the types of variables you have.
+5. Create a table describing the number of cases and controls (variable `status`) of each country (variable `pais`) included in the study. Which is the country having more cases? Which is the percentage of cases in Brazil?
+6. Create another table describing the number of cases and controls and human papillomavirus (variable `vph`). Do you think those variables are associated? Why?
+7. Summarize the duration consuming oral contraceptives (variable `durco`) in cases and controls, in each country and by educative levels (variable `niveledu`), respectively.
+8. Categorize the variable number of pregnancies (variable `nembara`) in quartiles. Which is the number of cases in the last quartile of number of pregnancies? and controls? 
+9. Create a boxplot to compare the age at first pregnancy (variable `edademba`) between cases and controls (variable `status`). Do you think this variable could be a risk factor of cervical cancer?
+10. Create an histogram to describe the age when women received their first test of papillomavirus (variable `edad1pap`). Is this variable normally distributed? Could you apply a test to justify your answer? (Hint -> google)
+
+
+# Statistical analysis
+
+1. Fit univariate logistic regression models to investigate which factors (`edad`, `niveledu`, `fumar`, `edad1sex`, `nembara`, `vph`) are associated with cervical cancer (variable `status`). Use `glm` function (see slides available at **Modelización estadística con R**)   
+
+3. Using the same study on cervical cancer ... perform a chi-squared test or a t-test to assess which variables are associated with `status` variable (e.g case/control). NOTE: use **`compareGroups`** package.
+
+
+# Reproducible Research
+
+1. Type `data()` in the R console. Select one of the available datasets and load it into R (i.e. `data(CO2)`). Create an R Markdown document including some descriptive analyses and plots using the selected data. Another option is to answer previous exercises using R Markdown.
+
+

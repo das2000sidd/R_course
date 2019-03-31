@@ -8,9 +8,6 @@ institute: |
   | BRGE - Bioinformatics Research Group in Epidemiology
   | ISGlobal - Barcelona Institute for Global Health
   | http://brge.isglobal.org
-date: |
-  | IACS - Instituto Aragonés de Ciencias de la Salud
-  | Zaragoza
 output:
   beamer_presentation:
     toc: false
