@@ -33,18 +33,18 @@ glm(y ~ group + var1 + var2 + ...., data=dat, family="binomial")
 --------------------------------------------------
 
 
-mod.var1 <- glm(Status ~ var1, data=multi, family="binomial")
+mod.var1 <- glm(status ~ var1, data=multi, family="binomial")
 summary(mod.var1)
 
-mod.var2 <- glm(Status ~ var2, data=multi, family="binomial")
+mod.var2 <- glm(status ~ var2, data=multi, family="binomial")
 summary(mod.var2)
 
 ......
 
-mod <- glm(Status ~ var3 + var5 + var8, data=multi, family="binomial")
+mod <- glm(status ~ var3 + var5 + var8, data=multi, family="binomial")
 summary(mod)
 
-
+library(MASS)
 modFin <- stepAIC(mod, method="forw")
 summary(modFin)
 
