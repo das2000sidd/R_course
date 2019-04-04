@@ -14,10 +14,10 @@ library(compareGroups)
 
 # select variables
 descr <- compareGroups(status2 ~ edad + niveledu + fumar + edad1sex +
-                         nembara + vph, multi)
+                         nembara + vph, data=multi, method=NA)
 descr
 
-# create table 1 
+# create table 1 (withoug p-values)
 table1 <- createTable(descr, show.p.overall = FALSE)
 table1
 
