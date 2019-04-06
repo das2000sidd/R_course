@@ -1,7 +1,7 @@
 ---
 title: "Multicentric Analysis"
 author: "R course"
-date: "1 de marzo de 2018"
+date: "4 de Abril de 2019"
 output: html_document
 ---
 
@@ -54,7 +54,7 @@ Hmisc::label(multicentric$vph) <- "Test papilloma virus"
 
 # Análisis descriptivo
 
-Primero indico las variables que quiero analizar. Aquí vamos a usar la opcion `method=NA` para indicar que use el test paramétrico o no paramétrico en función de si la variable continua sigue una distribución normal o no
+Primero indico las variables que quiero analizar. Aquí vamos a usar la opción `method=NA` para indicar que use el test paramétrico o no paramétrico en función de si la variable continua sigue una distribución normal o no
 
 ```{r}
 descr.multi <- compareGroups(caco ~ edad + niveledu + fumar +
