@@ -2,7 +2,7 @@
 # Option 1
 #
 
-install.packages(c("gglot2", "ggsignif", "ggpubr"))
+install.packages(c("ggplot2", "ggsignif", "ggpubr"))
 
 library(ggplot2)
 library(ggsignif)
